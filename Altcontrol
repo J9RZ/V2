@@ -607,7 +607,7 @@ local function Initiate()
 				ShowWallet()
 			elseif Message == getgenv().Prefix.."wallet off" then
 				RemoveWallet()
-			lseif Message == getgenv().Prefix.."fps 10" then
+			elseif Message == getgenv().Prefix.."fps 10" then
 			    setfpscap(10)
 			elseif Message == getgenv().Prefix.."fps 9" then
 			    setfpscap(9)
