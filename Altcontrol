@@ -167,6 +167,26 @@ local function Drop(Type)
 	end
 end
 
+local function Block(Type)
+	if Type == true and CmdSettings["Blocking"] == nil then
+		CmdSettings["Blocking"] = true
+		CmdSettings["CustomDrop"] = nil
+		CmdSettings["Aura"] = nil
+		while CmdSettings["Dropping"] do
+			local args = {
+				[1] = "Block",
+				[2] = true
+			}
+			game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
+			wait(2.5)
+		end
+	elseif Type == false then
+	        CmdSettings["Blocking"] = nil
+		CmdSettings["Dropping"] = nil
+		CmdSettings["CustomDrop"] = nil
+	end
+end
+
 local function SuperFly(Type)
 	if Type == true and CmdSettings["Fly"] == nil then
 		CmdSettings["Fly"] = true
@@ -489,6 +509,7 @@ local function Initiate()
 			if Args[1] == getgenv().Prefix.."drop" then
 			    game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('start', 'All'); 
 				Drop(true)
+				Block(true)
 			elseif not CmdSettings["AdOn"] and Args[1] == getgenv().Prefix.."advert" and Args[2] == "on" then
 				local newStr = string.gsub(Message, getgenv().Prefix.."ad on", "")
 				CmdSettings["AdOn"] = true
@@ -553,8 +574,9 @@ local function Initiate()
 					setfpscap(10)	
 				end
 			elseif Args[1] == getgenv().Prefix.."stop" then
-			    game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('Custom Drop has finished.', 'All'); 
+			    game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('end', 'All'); 
 				Drop(false)
+				Block(false)
 			elseif Args[1] == getgenv().Prefix.."reset" then
 				if Variables["Player"].Character then
 					local FULLY_LOADED_CHAR = Variables["Player"].Character:FindFirstChild("FULLY_LOADED_CHAR")
