@@ -585,6 +585,26 @@ local function Initiate()
 				ShowWallet()
 			elseif Message == getgenv().Prefix.."wallet off" then
 				RemoveWallet()
+			lseif Message == getgenv().Prefix.."fps 10" then
+			    setfpscap(10)
+			elseif Message == getgenv().Prefix.."fps 9" then
+			    setfpscap(9)
+			elseif Message == getgenv().Prefix.."fps 8" then
+			    setfpscap(8)
+		    elseif Message == getgenv().Prefix.."fps 7" then
+			    setfpscap(7)
+			elseif Message == getgenv().Prefix.."fps 6" then
+			    setfpscap(6)
+			elseif Message == getgenv().Prefix.."fps 5" then
+			    setfpscap(5)
+			elseif Message == getgenv().Prefix.."fps 4" then
+			    setfpscap(4)
+			elseif Message == getgenv().Prefix.."fps 3" then
+			    setfpscap(3)
+			elseif Message == getgenv().Prefix.."fps 2" then
+			    setfpscap(2)
+			elseif Message == getgenv().Prefix.."fps 1" then
+			    setfpscap(1)
 			elseif Message == getgenv().Prefix.."mask on" then
 				local plr = game.Players.LocalPlayer
 				local c = plr.Character
