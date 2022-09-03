@@ -575,7 +575,7 @@ local function Initiate()
 				AirLock(false)
 				if CurrAnim and CurrAnim.IsPlaying then
 					CurrAnim:Stop()
-				end)
+				end
 			elseif Message == getgenv().Prefix.."bring" then
 			game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
 				-- didnt feel the need for a function lmao
