@@ -182,19 +182,31 @@ local function SuperFly(Type)
 			game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
 		end
 	elseif Type == false then
-		local Anim = Instance.new("Animation")
-	Anim.AnimationId = "http://www.roblox.com/asset/?id=0"
-	CurrAnim = game.Players.LocalPlayer.Character.Humanoid.Animator:LoadAnimation(Anim)
-	CurrAnim:Play()
-	CurrAnim:AdjustSpeed()
-			game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
-		end
 	    CmdSettings["Fly"] = nil
 		CmdSettings["Dropping"] = nil
 		CmdSettings["CustomDrop"] = nil
 	end
 end
 
+local function Setup(Type)
+	if Type == true and CmdSettings["Setup"] == nil then
+		CmdSettings["Setup"] = true
+		CmdSettings["CustomDrop"] = nil
+		CmdSettings["Aura"] = nil
+		while CmdSettings["Setup"] do
+	local Anim = Instance.new("Animation")
+	Anim.AnimationId = "http://www.roblox.com/asset/?id=973771666"
+	CurrAnim = game.Players.LocalPlayer.Character.Humanoid.Animator:LoadAnimation(Anim)
+	CurrAnim:Play()
+	CurrAnim:AdjustSpeed()
+			game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
+		end
+	elseif Type == false then
+	    CmdSettings["Setup"] = nil
+		CmdSettings["Dropping"] = nil
+		CmdSettings["CustomDrop"] = nil
+	end
+end
 
 local function AirLock(Type)
 	if CmdSettings["AirLock"] == nil and Type == true then
@@ -560,6 +572,7 @@ local function Initiate()
 				SuperFly(true)
 			elseif Args[1] == getgenv().Prefix.."unlock" then
 				AirLock(false)
+				Setup(true)
 				SuperFly(false)
 			elseif Message == getgenv().Prefix.."bring" then
 				-- didnt feel the need for a function lmao
