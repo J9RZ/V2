@@ -572,8 +572,9 @@ local function Initiate()
 				SuperFly(true)
 			elseif Args[1] == getgenv().Prefix.."unlock" then
 				AirLock(false)
-				Setup(true)
-				SuperFly(false)
+				if CurrAnim and CurrAnim.IsPlaying then
+					CurrAnim:Stop()
+				end)
 			elseif Message == getgenv().Prefix.."bring" then
 				-- didnt feel the need for a function lmao
 				if Host and Host.Character and Host.Character:FindFirstChild("HumanoidRootPart") then
