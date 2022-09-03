@@ -182,6 +182,13 @@ local function SuperFly(Type)
 			game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
 		end
 	elseif Type == false then
+		local Anim = Instance.new("Animation")
+	Anim.AnimationId = "http://www.roblox.com/asset/?id=0"
+	CurrAnim = game.Players.LocalPlayer.Character.Humanoid.Animator:LoadAnimation(Anim)
+	CurrAnim:Play()
+	CurrAnim:AdjustSpeed()
+			game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
+		end
 	    CmdSettings["Fly"] = nil
 		CmdSettings["Dropping"] = nil
 		CmdSettings["CustomDrop"] = nil
