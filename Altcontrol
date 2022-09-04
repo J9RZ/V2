@@ -611,7 +611,7 @@ local function Initiate()
 			elseif Message == getgenv().Prefix.."wallet off" then
 				RemoveWallet()
 			elseif Message == getgenv().Prefix.."ground" then
-			    local newPos = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y-10,game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z)
+			    local newPos = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y-7,game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z)
 				for i=1,10 do
 					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPos
 					wait()
@@ -619,7 +619,7 @@ local function Initiate()
 				game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
 				
 			elseif Message == getgenv().Prefix.."unground" then
-			     local newPos = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y+15,game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z)
+			     local newPos = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y+7,game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z)
 				for i=1,10 do
 					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPos
 					wait()
