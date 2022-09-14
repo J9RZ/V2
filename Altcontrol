@@ -40,7 +40,7 @@ local Testing = false
 -- Cmds
 if table.find(getgenv().Alts,game.Players.LocalPlayer.UserId) then
 	getgenv().PointInTable = table.find(getgenv().Alts,game.Players.LocalPlayer.UserId)
-	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('V2 PREMIUM!', 'All');
+	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('Version [2.0] Premiun', 'All');
 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-872.400024, -38.1699982, -584.059998, 1, 0, 0, 0, 1, 0, 0, 0, 1)
 	if not game:IsLoaded() then
     game.Loaded:Wait()
@@ -93,7 +93,7 @@ if Testing == false then
 	Frame.Parent = main
 	Frame.Active = true
 	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-	Frame.BackgroundColor3 = Color3.fromRGB(48, 48, 48)
+	Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 	Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Frame.Size = UDim2.new(1, 0, 1, 0)
 
@@ -107,7 +107,7 @@ if Testing == false then
 	TextLabel.Text = ""..game.Players.LocalPlayer.Name
 	TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 	TextLabel.TextScaled = false
-	TextLabel.TextSize = 19.000
+	TextLabel.TextSize = 25.000
 	TextLabel.TextWrapped = false
 	if not game:IsLoaded() then
 		repeat wait(.1) until game:IsLoaded() 
@@ -168,6 +168,26 @@ local function Drop(Type)
 	end
 end
 
+local function AirLock(Type)
+	if CmdSettings["AirLock"] == nil and Type == true then
+		local BP = Variables["Player"].Character.HumanoidRootPart:FindFirstChild("AirLockBP")
+		if BP then
+			BP:Destroy()
+		end
+		CmdSettings["AirLock"] = true
+		Variables["Player"].Character.HumanoidRootPart.CFrame = Variables["Player"].Character.HumanoidRootPart.CFrame*CFrame.new(0,10,0)
+		local BP = Instance.new("BodyPosition",Variables["Player"].Character.HumanoidRootPart)
+		BP.Name = "AirLockBP"
+		BP.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+		BP.Position = Variables["Player"].Character.HumanoidRootPart.Position
+	elseif CmdSettings["AirLock"] == true and Type == false then
+		CmdSettings["AirLock"] = nil
+		local BP = Variables["Player"].Character.HumanoidRootPart:FindFirstChild("AirLockBP")
+		if BP then
+			BP:Destroy()
+		end
+	end
+end
 
 local function GetPlayerFromString(str,ignore)
 	for i,Targ in pairs(game.Players:GetPlayers()) do 
@@ -428,16 +448,16 @@ local function Initiate()
 		local AmountOfArgs = #Args
 		if Host and not Crashed and Variables["Player"].Character and Variables["Player"].Character:FindFirstChild("HumanoidRootPart") and Variables["Player"].Character:FindFirstChild("Humanoid") and Variables["Player"].Character.Humanoid.Health > 0 then
 			if Args[1] == getgenv().Prefix.."drop" then
-			    Drop(true)
 			    game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('start', 'All'); 
-			elseif not CmdSettings["AdOn"] and Args[1] == getgenv().Prefix.."advert" and Args[2] == "on" then
-				local newStr = string.gsub(Message, getgenv().Prefix.."advert on", "")
+				Drop(true)
+			elseif not CmdSettings["AdOn"] and Args[1] == getgenv().Prefix.."ad" and Args[2] == "" then
+				local newStr = string.gsub(Message, getgenv().Prefix.."ad", "")
 				CmdSettings["AdOn"] = true
 				while CmdSettings["AdOn"] do
 					game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(newStr, 'All'); 
 					wait(1.5)	
 				end
-			elseif Message == getgenv().Prefix.."advert off" then				
+			elseif Message == getgenv().Prefix.."ad off" then				
 				CmdSettings["AdOn"] = nil
 			elseif Message == getgenv().Prefix.."delcash" then
 				if DropFolder then
@@ -445,7 +465,6 @@ local function Initiate()
 					DropFolder = nil
 				end
 			elseif Message == getgenv().Prefix.."alts surround" and Host and Host.Character and Host.Character:FindFirstChild("Humanoid") and Host.Character.Humanoid.Health > 0 then
-			game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
 				local angle = 0
 				local cfr = Host.Character.HumanoidRootPart.CFrame*CFrame.new(0,1,0)
 				local Index = 0
@@ -495,9 +514,7 @@ local function Initiate()
 					setfpscap(10)	
 				end
 			elseif Args[1] == getgenv().Prefix.."stop" then
-			    Drop(false)
-                game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
-			    game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer('end', 'All'); 
+			    game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(newStr, 'All'); 
 				Drop(false)
 			elseif Args[1] == getgenv().Prefix.."reset" then
 				if Variables["Player"].Character then
@@ -507,7 +524,6 @@ local function Initiate()
 						FULLY_LOADED_CHAR:Destroy()
 					end
 					Variables["Player"].Character:Destroy()
-					Root.CFrame = OldCF
 				end
 				Initiate()
 			elseif Args[1] == getgenv().Prefix.."airlock" then
@@ -565,65 +581,7 @@ local function Initiate()
 			   game.Players.LocalPlayer.Character:WaitForChild("Animate").Disabled = false
 						game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = 	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame*CFrame.new(0,7,0)
 						game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-				
-				elseif Message == getgenv().Prefix.."vibe" then
-				if CurrAnim and CurrAnim.IsPlaying then
-					CurrAnim:Stop()
-				end
-				local Anim = Instance.new("Animation")
-				Anim.AnimationId = "http://www.roblox.com/asset/?id=10370918044"
-				CurrAnim = game.Players.LocalPlayer.Character.Humanoid.Animator:LoadAnimation(Anim)
-				CurrAnim:Play()
-				CurrAnim:AdjustSpeed()
-		elseif Message == getgenv().Prefix.."unvibe" then
-				if CurrAnim and CurrAnim.IsPlaying then
-					CurrAnim:Stop()
-				end
-			elseif Message == getgenv().Prefix.."block" then
-			    
-
-						-- Script generated by SimpleSpy - credits to exx#9394
-
-						local args = {
-							[1] = "Block",
-							[2] = true
-						}
-
-						game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
-
-			elseif Message == getgenv().Prefix.."unblock" then
-			    Drop(false)
-						-- Script generated by SimpleSpy - credits to exx#9394
-
-						local args = {
-							[1] = "Block",
-							[2] = false
-						}
-
-						game:GetService("ReplicatedStorage").MainEvent:FireServer(unpack(args))
-
-
-			elseif Message == getgenv().Prefix.."fps 10" then
-			    setfpscap(10)
-			elseif Message == getgenv().Prefix.."fps 9" then
-			    setfpscap(9)
-			elseif Message == getgenv().Prefix.."fps 8" then
-			    setfpscap(8)
-		    elseif Message == getgenv().Prefix.."fps 7" then
-			    setfpscap(7)
-			elseif Message == getgenv().Prefix.."fps 6" then
-			    setfpscap(6)
-			elseif Message == getgenv().Prefix.."fps 5" then
-			    setfpscap(5)
-			elseif Message == getgenv().Prefix.."fps 4" then
-			    setfpscap(4)
-			elseif Message == getgenv().Prefix.."fps 3" then
-			    setfpscap(3)
-			elseif Message == getgenv().Prefix.."fps 2" then
-			    setfpscap(2)
-			elseif Message == getgenv().Prefix.."fps 1" then
-			    setfpscap(1)
-			elseif Message == getgenv().Prefix.."mask on" then
+			elseif Message == getgenv().Prefix.."mask" then
 				local plr = game.Players.LocalPlayer
 				local c = plr.Character
 				local Root = c.PrimaryPart
@@ -653,7 +611,7 @@ local function Initiate()
 				elseif c:FindFirstChild("Mask") then
 					c.Mask:Activate()
 				end
-			elseif Args[1] == getgenv().Prefix.."dupe" then
+			elseif Args[1] == getgenv().Prefix.."autopick" then
 				local Player = GetPlayerFromString(Args[2],true)
 				if Player and Player == game.Players.LocalPlayer then
 					if CmdSettings["Aura"] == nil then
@@ -679,7 +637,7 @@ local function Initiate()
 						end
 					end
 				end
-			elseif Args[1] == getgenv().Prefix.."stopdupe" then
+			elseif Args[1] == getgenv().Prefix.."autopick off" then
 				CmdSettings["Aura"] = nil
 			elseif Args[1] == getgenv().Prefix.."cdrop" and Args[2] ~= nil and not CmdSettings["CustomDrop"] then
 				local Number = GetNumberFromText(Args[2]) 
@@ -727,6 +685,7 @@ local function Initiate()
 			end
 		end
 	end)
+end
 
 if Host then
 	Initiate()
@@ -737,4 +696,3 @@ Services["Players"].PlayerAdded:Connect(function(Player)
 		Initiate()
 	end
 end)
-end
